@@ -1,0 +1,14 @@
+@use '../../Style/variables' as *
+
+.card-section
+    display: grid
+    grid-template-columns: repeat(auto-fill, minmax(40%, 1fr))
+    gap: 2rem
+    margin: 0 2rem 0 22vw
+    padding-top: 2rem
+
+    .card-container
+        background-color: $color-white
+        padding: 1.5rem
+        border-radius: 0.5rem
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1)

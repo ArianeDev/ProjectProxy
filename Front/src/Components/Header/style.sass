@@ -8,6 +8,9 @@ header
     padding: 2rem
     box-shadow: 5px 1px 10px $color-gray
     position: absolute
+    display: flex
+    flex-direction: column
+    justify-content: space-between
 
     h1
         font-size: 2rem
@@ -34,3 +37,23 @@ header
                         color: $color-blue
                         padding: 0.5rem 1rem
                         border-radius: 0.5rem 
+
+    .header-button-link
+        color: $color-black
+        text-decoration: none
+        width: 100%
+
+        button
+            background-color: $color-white
+            border: none
+            padding: 0.5rem 1rem
+            border-radius: 0.5rem
+            cursor: pointer
+            font-size: 1rem
+            font-weight: 500
+            transition: all 0.3s ease
+            width: 100%
+
+            &:hover
+                opacity: 0.8
+                color: rgb(95, 95, 95)

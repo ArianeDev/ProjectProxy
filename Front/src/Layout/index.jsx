@@ -7,9 +7,7 @@ const GlobalLayout = () => {
   return (
     <div className="globalLayout-container"> 
       <Header />
-      <main>
-        <Outlet />
-      </main>
+      <Outlet />
       <Footer />
     </div>
   );
