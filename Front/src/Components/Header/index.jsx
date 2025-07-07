@@ -7,15 +7,21 @@ export function Header(){
         <h1>ProjectProxy</h1>
         <nav>
             <ul>
-                <Link to="/" className="header-nav-link">
-                    <li>Home</li>
-                </Link>
-                <Link to="/category" className="header-nav-link">
-                    <li>Categorias</li>
-                </Link>
-                <Link to="/category" className="header-nav-link">
-                    <li>Alguma coisa</li>
-                </Link>
+                <li>
+                    <Link to="/" className="header-nav-link">
+                        Home
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/category" className="header-nav-link">
+                        Categorias
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/category" className="header-nav-link">
+                        Alguma coisa
+                    </Link>
+                </li>
             </ul>
         </nav>
     </header>
