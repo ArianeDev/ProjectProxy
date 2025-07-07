@@ -1,9 +1,27 @@
+import { Forms } from "../../Components/Forms";
+import './style.sass';
+
 export function Register() {
+    const listForms = [
+        {
+            nameLabel: 'Categoria',
+            type: 'select',
+            atributo: '',
+            setFunction: () => {},
+        },
+        {
+            nameLabel: 'Descrição:',
+            type: 'text',
+            atributo: '',
+            placeholder: 'Digite sua descrição',
+            setFunction: () => {},
+            disabled: false
+        },
+    ];
+
     return (
-        <div>
-        <h1>Register Page</h1>
-        <p>This is the register page where users can sign up.</p>
-        {/* Add your registration form or components here */}
-        </div>
+      <main className="container-register">
+        <Forms title="Adicionar" listForms={listForms} buttonTitle="Registrar" method="POST"  />
+      </main>
     );
 }
