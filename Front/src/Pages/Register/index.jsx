@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Forms } from "../../Components/Forms";
 import './style.sass';
+import api from "../../Services/api";
 
 export function Register() {
     const [selectedType, setSelectedType] = useState(''); 
@@ -14,32 +15,39 @@ export function Register() {
         proxy: false
     });
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [message, setMessage] = useState('');
+
     const updateField = (field, value) => {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
     const baseForm = [
-      {
-        nameLabel: 'O que deseja cadastrar?',
-        type: 'select',
-        atributo: selectedType,
-        setFunction: setSelectedType,
-        options: [
-          { value: '', label: 'Selecione' },
-          { value: 'erros', label: 'Erros' },
-          { value: 'tutoriais', label: 'Tutoriais' }
-        ]
-      }
+        {
+            nameLabel: 'O que deseja cadastrar?',
+            type: 'select',
+            atributo: selectedType,
+            setFunction: setSelectedType,
+            options: [
+                { value: '', label: 'Selecione' },
+                { value: 'erros', label: 'Erros' },
+                { value: 'tutoriais', label: 'Tutoriais' }
+            ]
+        }
     ];
 
     const extraFields = {
         erros: [
             {
                 nameLabel: 'Categoria',
-                type: 'text',
+                type: 'select',
                 atributo: formData.categoria,
                 setFunction: (val) => updateField('categoria', val),
-                placeholder: 'Ex: FrontEnd'
+                options: [
+                    { value: '', label: 'Selecione uma categoria' },
+                    { value: 'Front-End', label: 'Front-End' },
+                    { value: 'Back-End', label: 'Back-End' }
+                ]
             },
             {
                 nameLabel: 'Nome da ferramenta',
@@ -75,10 +83,14 @@ export function Register() {
         tutoriais: [
             {
                 nameLabel: 'Categoria',
-                type: 'textarea',
+                type: 'select',
                 atributo: formData.categoria,
                 setFunction: (val) => updateField('categoria', val),
-                placeholder: 'Ex: Front-End'
+                options: [
+                    { value: '', label: 'Selecione uma categoria' },
+                    { value: 'Front-End', label: 'Front-End' },
+                    { value: 'Back-End', label: 'Back-End' }
+                ]
             },
             {
                 nameLabel: 'Nome da ferramenta',
@@ -88,7 +100,7 @@ export function Register() {
             },
             {
                 nameLabel: 'Comandos',
-                type: 'text',
+                type: 'textarea',
                 atributo: formData.comandos,
                 setFunction: (val) => updateField('comandos', val),
             },
@@ -103,15 +115,69 @@ export function Register() {
 
     const listForms = selectedType ? [...baseForm, ...extraFields[selectedType]] : baseForm;
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!selectedType) {
+            setMessage('Selecione um tipo para cadastrar.');
+            return;
+        }
+
+        setIsLoading(true);
+        setMessage('');
+
+        try {
+            const endpoint = selectedType === 'erros' ? 'erros/' : 'tutoriais/';
+ 
+            const payload = selectedType === 'erros'
+                ? {
+                    categoria: formData.categoria,
+                    nome_ferramenta: formData.nome_ferramenta,
+                    descricao_erro: formData.descricao_erro,
+                    descricao_solucao: formData.descricao_solucao,
+                    palavras_chaves: formData.palavras_chaves,
+                    proxy: formData.proxy
+                }
+                : {
+                    categoria: formData.categoria,
+                    nome_ferramenta: formData.nome_ferramenta,
+                    comandos: formData.comandos,
+                    palavras_chaves: formData.palavras_chaves
+                };
+
+            await api.post(endpoint, payload);
+            setMessage('Cadastro realizado com sucesso!');
+
+            setFormData({
+                categoria: '',
+                nome_ferramenta: '',
+                descricao_erro: '',
+                descricao_solucao: '',
+                comandos: '',
+                palavras_chaves: '',
+                proxy: false
+            });
+            setSelectedType('');
+        } catch (error) {
+            if (error.response && error.response.data) {
+                console.error('Erro de API:', error.response.data);
+                setMessage('Erro: ' + JSON.stringify(error.response.data));
+            } else {
+                console.error(error);
+                setMessage('Erro ao cadastrar. Verifique o servidor.');
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <main className="container-register">
             <Forms 
-                title="Registrar" 
+                title="Cadastrar" 
                 listForms={listForms} 
-                buttonTitle="Enviar" 
-                method="POST" 
-                endpoint={selectedType === 'erros' ? 'erros/' : 'tutoriais/'}
-                data={formData}
+                buttonTitle={isLoading ? "Enviando..." : "Cadastrar"} 
+                methodFunction={handleSubmit}
+                error={message}
             />
         </main>
     );

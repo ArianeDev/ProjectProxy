@@ -9,7 +9,7 @@ export function Forms({ title, listForms, buttonTitle, method, methodFunction, e
 			<h2>{title}</h2>
 			{error && <p className="error">{error}</p>}
 			
-			<form method={method} onSubmit={methodFunction}>
+			<form onSubmit={methodFunction}>
 				{listForms.map((item, key) => (
 					<div className="container-input" key={key}>
 						<Label text={item.nameLabel} />
