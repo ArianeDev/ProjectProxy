@@ -18,11 +18,6 @@ export function Header(){
                             Tutoriais
                         </Link>
                     </li>
-                    <li>
-                        <Link to="/erros" className="header-nav-link">
-                            Erros proxy
-                        </Link>
-                    </li>
                 </ul>
             </nav>
         </div>
