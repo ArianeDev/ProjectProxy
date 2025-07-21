@@ -85,6 +85,7 @@
 
 .selectInputWrapper
 	width: 100%
+	margin: 12px 5px
 
 	select
 		width: 100%
@@ -115,3 +116,32 @@ textarea
 
 	&::placeholder
 		color: rgb(61, 61, 61)
+
+input[type="checkbox"]
+	-webkit-appearance: none
+	appearance: none
+	background-color: rgb(216, 216, 216)
+	margin: 0
+	font: inherit
+	color: currentColor
+	width: 1.15em
+	height: 1.15em
+	border: 0.15em solid currentColor
+	border-radius: 0.15em
+	transform: translateY(-0.075em)
+	display: grid
+	place-content: center
+
+	&::before
+		content: ""
+		width: 0.65em
+		height: 0.65em
+		clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%)
+		transform: scale(0)
+		transform-origin: bottom left
+		transition: 120ms transform ease-in-out
+		box-shadow: inset 1em 1em $color-blue
+		background-color: CanvasText
+
+	&:checked::before 
+		transform: scale(1)
